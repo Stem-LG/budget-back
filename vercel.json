@@ -1,0 +1,14 @@
+{
+    "builds": [
+        {
+            "src": "InternUp/wsgi.py",
+            "use": "@vercel/python"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "InternUp/wsgi.py"
+        }
+    ]
+}
