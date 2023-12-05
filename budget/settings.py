@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -6,7 +7,7 @@ SECRET_KEY = 'django-insecure-tj0r@u1&_ok3q7gy4@dtyb$_w0*r83io-t-)5k)ud)$28-xg@=
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost","127.0.0.1"]
+# ALLOWED_HOSTS = ["localhost","127.0.0.1"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -23,10 +24,14 @@ INSTALLED_APPS = [
     'users'
 ]
 
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:4200',
-    'http://127.0.0.1:4200',
-)
+
+
+CORS_ALLOW_ALL_ORIGINS = True 
+
+# CORS_ORIGIN_WHITELIST = (
+#     'http://localhost:4200',
+#     'http://127.0.0.1:4200',
+# )
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -60,12 +65,26 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'budget.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+
+if(os.getenv("POSTGRES_URL") == None):
+    DATABASES = {
+
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv("POSTGRES_DB"),
+            'USER': os.getenv("POSTGRES_USER"),
+            'PASSWORD': os.getenv("POSTGRES_PASSWORD"),
+            'HOST': os.getenv("POSTGRES_URL"),
+            'PORT': os.getenv("POSTGRES_PORT"),
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     # {

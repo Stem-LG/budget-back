@@ -4,12 +4,31 @@ from api.serializers import earningsSerializer, eventSerializer, eventsSerialize
 from db.models import Earning, Event, Expense, Fund
 from django.db.models import Sum
 from django.contrib.auth.models import User
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+
 
 from users.serializers import UserSerializer
+
+
+#users
+
+@api_view(['GET'])
+# @authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+def usersView(request):
+    users = User.objects.all()
+
+    serializedUsers = UserSerializer(users, many=True).data
+
+    return Response(serializedUsers)
 
 #dashboard
 
 @api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def statsView(request):
     #returns total funds, expenses, earnings
     funds_sum = Fund.objects.aggregate(Sum("amount"))['amount__sum']
@@ -26,6 +45,8 @@ def statsView(request):
 
 #events
 @api_view(['GET','POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def eventsView(request):
     match request.method:
         case "GET":
@@ -49,17 +70,12 @@ def eventsView(request):
 
             return Response(serializedEvent)
 
-@api_view(['GET'])
-def usersView(request):
-    users = User.objects.all()
-
-    serializedUsers = UserSerializer(users, many=True).data
-
-    return Response(serializedUsers)
 
 #event
 
 @api_view(['GET','PUT','DELETE'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def eventView(request, id):
 
     match request.method:
@@ -98,6 +114,8 @@ def eventView(request, id):
     
 
 @api_view(['GET','POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def fundsView(request, event_id):
 
     match request.method:
@@ -126,6 +144,8 @@ def fundsView(request, event_id):
             return Response(serializedFund)
 
 @api_view(['DELETE', 'PUT'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def fundView(request, id):
     match request.method:
         case 'PUT':
@@ -149,6 +169,8 @@ def fundView(request, id):
  
 
 @api_view(['GET','POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def expensesView(request, event_id):
 
     match request.method:
@@ -176,6 +198,8 @@ def expensesView(request, event_id):
             return Response(serializedExpense)
         
 @api_view(['DELETE', 'PUT'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def expenseView(request, id):
     match request.method:
         case 'PUT':
@@ -199,6 +223,8 @@ def expenseView(request, id):
             return Response({"message":"Expense deleted"})
 
 @api_view(['GET','POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def earningsView(request, event_id):
 
     match request.method:
@@ -225,6 +251,8 @@ def earningsView(request, event_id):
             return Response(serializedEarning)
 
 @api_view(['DELETE', 'PUT'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def earningView(request, id):
     match request.method:
         case 'PUT':

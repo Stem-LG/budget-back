@@ -11,7 +11,6 @@ from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 
-
 @api_view(['POST'])
 def login(request):
     if(request.data['username']):
