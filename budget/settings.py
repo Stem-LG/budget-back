@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-tj0r@u1&_ok3q7gy4@dtyb$_w0*r83io-t-)5k)ud)$28-xg@=
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost","127.0.0.1", "budget.louay.tn"]
+ALLOWED_HOSTS = ["localhost","127.0.0.1", "budgetapi.louay.tn"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
