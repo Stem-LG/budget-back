@@ -1,6 +1,12 @@
 import os
 from pathlib import Path
 
+#load .env
+if(os.getenv("POSTGRES_URL") == None):
+    from dotenv import load_dotenv
+    load_dotenv('.env') 
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-tj0r@u1&_ok3q7gy4@dtyb$_w0*r83io-t-)5k)ud)$28-xg@='
@@ -63,10 +69,11 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'budget.wsgi.application'
+WSGI_APPLICATION = 'budget.wsgi.app'
 
 
-if(os.getenv("POSTGRES_URL") == None):
+
+if(os.getenv("ENV") == "DEV"):
     DATABASES = {
 
         'default': {
@@ -78,13 +85,15 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.getenv("POSTGRES_DB"),
+            'NAME': os.getenv("POSTGRES_NAME"),
             'USER': os.getenv("POSTGRES_USER"),
             'PASSWORD': os.getenv("POSTGRES_PASSWORD"),
-            'HOST': os.getenv("POSTGRES_URL"),
+            'HOST': os.getenv("POSTGRES_HOST"),
             'PORT': os.getenv("POSTGRES_PORT"),
         }
     }
+
+
 
 AUTH_PASSWORD_VALIDATORS = [
     # {
