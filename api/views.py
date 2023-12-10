@@ -15,8 +15,8 @@ from users.serializers import UserSerializer
 #users
 
 @api_view(['GET'])
-# @authentication_classes([TokenAuthentication])
-# @permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def usersView(request):
     users = User.objects.all()
 

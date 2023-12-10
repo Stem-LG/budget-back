@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import UserSerializer
+from users.serializers import UserSerializer
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
@@ -45,8 +45,6 @@ def register(request):
 @api_view(['DELETE'])
 def logout(request):
     token = request.META.get('HTTP_AUTHORIZATION').split(" ")[1]
-
-    print("token: ",token)
 
     Token.objects.get(key=token).delete()
     
