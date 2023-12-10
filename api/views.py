@@ -48,14 +48,13 @@ def statsView(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def eventsView(request):
-    match request.method:
-        case "GET":
+    if(request.method == "GET"):
             events = Event.objects.all()
 
             serializedEvents = eventsSerializer(events, many=True).data
 
             return Response(serializedEvents)
-        case "POST":
+    elif(request.method == "POST"):
             event = Event(
                 name = request.data['name'],
                 date = request.data['date'],
@@ -78,8 +77,7 @@ def eventsView(request):
 @permission_classes([IsAuthenticated])
 def eventView(request, id):
 
-    match request.method:
-        case "GET":
+    if(request.method == "GET"):
             event = Event.objects.get(id=id)
 
             funds_sum = Fund.objects.select_related('event').filter(event=id).aggregate(Sum("amount"))['amount__sum']
@@ -93,7 +91,7 @@ def eventView(request, id):
 
             return Response(serializedEvent)
         
-        case "PUT":
+    elif(request.method == "PUT"):
             event = Event.objects.get(id=id)
             event.name = request.data['name']
             event.date = request.data['date']
@@ -105,7 +103,7 @@ def eventView(request, id):
 
             return Response(eventSerializer(event).data)
 
-        case "DELETE":
+    elif(request.method == "DELETE"):
             event = Event.objects.get(id=id)
 
             event.delete()
@@ -118,14 +116,13 @@ def eventView(request, id):
 @permission_classes([IsAuthenticated])
 def fundsView(request, event_id):
 
-    match request.method:
-        case 'GET':
+    if request.method == 'GET':
             funds = Fund.objects.filter(event=event_id).all()
 
             serializedFund = fundsSerializer(funds, many=True).data
 
             return Response(serializedFund)
-        case 'POST':
+    elif request.method == 'POST':
 
             fund = Fund(
                 title = request.data['title'],
@@ -147,8 +144,7 @@ def fundsView(request, event_id):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def fundView(request, id):
-    match request.method:
-        case 'PUT':
+    if request.method == 'PUT':
             fund = Fund.objects.get(id=id)
             fund.title = request.data['title']
             fund.date = request.data['date']
@@ -160,7 +156,7 @@ def fundView(request, id):
             fund.save()
 
             return Response(fundsSerializer(fund).data)
-        case 'DELETE':
+    elif request.method == 'DELETE':
             fund = Fund.objects.get(id=id)
 
             fund.delete()
@@ -173,14 +169,13 @@ def fundView(request, id):
 @permission_classes([IsAuthenticated])
 def expensesView(request, event_id):
 
-    match request.method:
-        case 'GET':
+    if request.method == 'GET':
             expenses = Expense.objects.filter(event=event_id).all()
 
             serializedExpense = expensesSerializer(expenses, many=True).data
 
             return Response(serializedExpense)
-        case 'POST':
+    elif request.method == 'POST':
             expense = Expense(
                 item = request.data['item'],
                 date = request.data['date'],
@@ -201,8 +196,7 @@ def expensesView(request, event_id):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def expenseView(request, id):
-    match request.method:
-        case 'PUT':
+    if request.method == 'PUT':
             expense = Expense.objects.get(id=id)
             expense.item = request.data['item']
             expense.date = request.data['date']
@@ -215,7 +209,7 @@ def expenseView(request, id):
 
             return Response(expensesSerializer(expense).data)
         
-        case 'DELETE':
+    elif request.method == 'DELETE':
             expense = Expense.objects.get(id=id)
 
             expense.delete()
@@ -227,14 +221,13 @@ def expenseView(request, id):
 @permission_classes([IsAuthenticated])
 def earningsView(request, event_id):
 
-    match request.method:
-        case 'GET':
+    if request.method == 'GET':
             earnings = Earning.objects.filter(event=event_id).all()
 
             serializedEarnings = earningsSerializer(earnings, many=True).data
 
             return Response(serializedEarnings)
-        case 'POST':
+    elif request.method == 'POST':
             earning = Earning(
                 item = request.data['item'],
                 date = request.data['date'],
@@ -254,8 +247,7 @@ def earningsView(request, event_id):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def earningView(request, id):
-    match request.method:
-        case 'PUT':
+    if request.method == 'PUT':
             earning = Earning.objects.get(id=id)
             earning.item = request.data['item']
             earning.date = request.data['date']
@@ -267,7 +259,7 @@ def earningView(request, id):
 
             return Response(earningsSerializer(earning).data)
         
-        case 'DELETE':
+    elif request.method == 'DELETE':
             earning = Earning.objects.get(id=id)
 
             earning.delete()
