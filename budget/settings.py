@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-tj0r@u1&_ok3q7gy4@dtyb$_w0*r83io-t-)5k)ud)$28-xg@='
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["localhost","127.0.0.1", "budgetapi.louay.tn", "budget.louay.tn"]
 
