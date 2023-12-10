@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-tj0r@u1&_ok3q7gy4@dtyb$_w0*r83io-t-)5k)ud)$28-xg@=
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost","127.0.0.1", "budgetapi.louay.tn"]
+ALLOWED_HOSTS = ["localhost","127.0.0.1", "budgetapi.louay.tn", "budget.louay.tn"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -32,12 +32,14 @@ INSTALLED_APPS = [
 
 
 
-CORS_ALLOW_ALL_ORIGINS = True 
+# CORS_ALLOW_ALL_ORIGINS = True 
 
-# CORS_ORIGIN_WHITELIST = (
-#     'http://localhost:4200',
-#     'http://127.0.0.1:4200',
-# )
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:4200',
+    'http://127.0.0.1:4200',
+    'https://budget.louay.tn',
+    'https://budgetapi.louay.tn',
+)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
